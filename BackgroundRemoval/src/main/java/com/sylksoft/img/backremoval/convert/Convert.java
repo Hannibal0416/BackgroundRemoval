@@ -13,16 +13,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.test.sobel;
 
-class Convert
+public class Convert
 {
-    public static void main(String[] args)
-    {
-        invertImage("img/girl.png");
-    }
 
-    public static void invertImage(String imageName) {
+    public void invertImage(String imageName) {
     	File imgFile =new File(imageName);
         BufferedImage inputFile = null;
         try {
@@ -30,7 +25,13 @@ class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
+        ImagePlus imageProc = new ImagePlus(); 
+        imageProc.setImage(inputFile);
+        ImageProcessor ip = new ShortProcessor(inputFile.getWidth(), inputFile.getHeight()); 
+        ip = imageProc.getProcessor();
+        
+        
         for (int x = 0; x < inputFile.getWidth(); x++) {
             for (int y = 0; y < inputFile.getHeight(); y++) {
                 int rgba = inputFile.getRGB(x, y);
@@ -49,10 +50,11 @@ class Convert
             e.printStackTrace();
         }
         
-        ImagePlus imageProc = new ImagePlus(); 
+       
+        imageProc = new ImagePlus(); 
         imageProc.setImage(inputFile);
         ImageProcessor ipin = new ShortProcessor(inputFile.getWidth(), inputFile.getHeight()); 
-        ipin = imageProc.getProcessor(); 
+        ipin = imageProc.getProcessor();
         
         ipin.findEdges();
         
@@ -70,7 +72,7 @@ class Convert
         
         GaussianBlur gb = new GaussianBlur();
         
-        gb.blurGaussian(ipin, 3, 3, 0.04);
+        gb.blurGaussian(ipin, 5, 5, 0.02);
         inputFile = ipin.getBufferedImage();
         try {
             File outputFile = new File("img/1GaussianBlur-"+imgFile.getName());
@@ -79,7 +81,7 @@ class Convert
             e.printStackTrace();
         }
         Threshold threshold = new Threshold();
-        threshold.setThreshold(15);
+        threshold.setThreshold(10);
         threshold.run(ipin);
         inputFile = ipin.getBufferedImage();
         try {
@@ -88,16 +90,19 @@ class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        DilationErosion de = new DilationErosion();
-//        de.setImageProcessor(ipin);
-//        de.Opening(21);
-//        inputFile = ipin.getBufferedImage();
 
+        gb.blurGaussian(ipin, 5, 5, 0.02);
+        threshold.setThreshold(10);
         
-        
-        ipin.erode();
-        ipin.dilate();
-        
+       for(int i = 0 ; i < 5 ; i++) {
+    	   ipin.erode();
+       }
+
+//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
+//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
+//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
+//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
+//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
         inputFile = ipin.getBufferedImage();
         try {
             File outputFile = new File("img/DilationErosion-"+imgFile.getName());
@@ -105,32 +110,33 @@ class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FloodFiller ff = new FloodFiller(ipin);
+//        FloodFiller ff = new FloodFiller(ipin);
 //        for (int x = ipin.getWidth() /; x < ipin.getWidth() /2; x++) {
 //			for (int y = ipin.getHeight() /4; y < ipin.getHeight() /2; y++) {
 //				ff.fill8(x, y);
 //			}
 //        }
         //center
-        ff.particleAnalyzerFill(ipin.getHeight() /4; y < ipin.getHeight() /2
-        , 0, 1, ipin.duplicate(), bounds);
-        for (int x = ipin.getWidth() /4; x < ipin.getWidth()/4 * 3; x++) {
-			for (int y = ipin.getHeight() /4; y < ipin.getHeight()/4 * 3; y++) {
-				if(ipin.getPixel(x, y) == ((255<< 16)+ (255 <<8) + 255)) {
-					// ff.fill8(x,y);
-					 break;
-				}
-			}
-        }
+//        ff.particleAnalyzerFill(ipin.getHeight() /4, y < ipin.getHeight() /2
+//        , 0, 1, ipin.duplicate(), bounds);
+//        for (int x = ipin.getWidth() /4; x < ipin.getWidth()/4 * 3; x++) {
+//			for (int y = ipin.getHeight() /4; y < ipin.getHeight()/4 * 3; y++) {
+//				if(ipin.getPixel(x, y) == ImageProcessor.BLACK) {
+//					 ff.fill8(x,y);
+//					 break;
+//				}
+//			}
+//        }
        
-        /*FloodFill ff = new FloodFill();
-        ff.setIp(ipin);
+//        FloodFill ff = new FloodFill();
+//        ff.setIp(ipin);
         //ff.flood(ipin.getWidth() /4, ipin.getHeight() /4,  (255<< 16)+ (255 <<8) + 255 ,  (255<< 16)+ (255 <<8) + 255);
-        ff.flood(ipin.getWidth() /8, ipin.getHeight() /8,  (255<< 16)+ (255 <<8) + 255 , ipin.get(ipin.getWidth() /8, ipin.getHeight() /8));
-        */
-        //ff.particleAnalyzerFill(ipin.getWidth() /2, ipin.getHeight() /2, 0.2, 0.4, ipin.duplicate(), r);
-       
+//        ff.flood(ipin.getWidth() /8, ipin.getHeight() /8,  (255<< 16)+ (255 <<8) + 255 , ipin.get(ipin.getWidth() /8, ipin.getHeight() /8));
         
+        //ff.particleAnalyzerFill(ipin.getWidth() /2, ipin.getHeight() /2, 0.2, 0.4, ipin.duplicate(), r);
+//       int ori[] = new int[3];
+//       int w[] = {255,255,255};
+//        ff.fill(4 , 4, w,  ipin.getPixel(0 , 0 ,ori));
         
         
         inputFile = ipin.getBufferedImage();
@@ -141,6 +147,17 @@ class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+        BackgroundDetect bd = new BackgroundDetect(ip,ipin);
+        bd.detect();
+        inputFile = ip.getBufferedImage();
+        try {
+            File outputFile = new File("img/BackgroundDetect-"+imgFile.getName());
+            ImageIO.write(inputFile, "png", outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //find background color
+        Opercity o = new Opercity(ip,ipin);
+        o.doOpercity();
     }
 }
