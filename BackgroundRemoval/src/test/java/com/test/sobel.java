@@ -18,7 +18,7 @@ public class sobel {
 		int[] output;
 		float[] template={-1,0,1,-2,0,2,-1,0,1};;
 		int progress;
-		int templateSize=3;
+		int templateSize=3; 
 		int width;
 		int height;
 		double[] direction;
