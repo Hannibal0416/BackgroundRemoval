@@ -33,7 +33,14 @@ public class BackgroundDetect {
 						
 					}
 				}
-				System.out.println(tempBlock);
+				
+				//計算背景色
+//				
+//				iArray[0] = (c&0xff0000)>>16;
+//				iArray[1] = (c&0xff00)>>8;
+//				iArray[2] = c&0xff;
+				
+				
 			}
 		}
 		

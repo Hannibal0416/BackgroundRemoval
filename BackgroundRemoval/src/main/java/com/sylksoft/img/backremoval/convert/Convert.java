@@ -17,14 +17,19 @@ import javax.imageio.ImageIO;
 public class Convert
 {
 
-    public void invertImage(String imageName) {
-    	File imgFile =new File(imageName);
-        BufferedImage inputFile = null;
-        try {
-            inputFile = ImageIO.read(new File(imageName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	private String imgFile;
+	
+    public String getImgFile() {
+		return imgFile;
+	}
+
+	public void setImgFile(String imgFile) {
+		this.imgFile = imgFile;
+	}
+
+	public void invertImage(BufferedImage inputFile) {
+    	
+        
         
         ImagePlus imageProc = new ImagePlus(); 
         imageProc.setImage(inputFile);
@@ -44,7 +49,7 @@ public class Convert
         }
 
         try {
-            File outputFile = new File("img/negate-"+imgFile.getName());
+            File outputFile = new File("img/negate-"+imgFile);
             ImageIO.write(inputFile, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,7 +69,7 @@ public class Convert
         
 
         try {
-            File outputFile = new File("img/sobel-"+imgFile.getName());
+            File outputFile = new File("img/sobel-"+imgFile);
             ImageIO.write(inputFile, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,7 +80,7 @@ public class Convert
         gb.blurGaussian(ipin, 5, 5, 0.02);
         inputFile = ipin.getBufferedImage();
         try {
-            File outputFile = new File("img/1GaussianBlur-"+imgFile.getName());
+            File outputFile = new File("img/1GaussianBlur-"+imgFile);
             ImageIO.write(inputFile, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,7 +90,7 @@ public class Convert
         threshold.run(ipin);
         inputFile = ipin.getBufferedImage();
         try {
-            File outputFile = new File("img/1threshold-"+imgFile.getName());
+            File outputFile = new File("img/1threshold-"+imgFile);
             ImageIO.write(inputFile, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,14 +103,10 @@ public class Convert
     	   ipin.erode();
        }
 
-//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
-//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
-//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
-//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
-//        ipin.dilate();ipin.dilate();ipin.dilate();ipin.dilate();
+
         inputFile = ipin.getBufferedImage();
         try {
-            File outputFile = new File("img/DilationErosion-"+imgFile.getName());
+            File outputFile = new File("img/DilationErosion-"+imgFile);
             ImageIO.write(inputFile, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -142,7 +143,7 @@ public class Convert
         inputFile = ipin.getBufferedImage();
 
         try {
-            File outputFile = new File("img/FloodFiller-"+imgFile.getName());
+            File outputFile = new File("img/FloodFiller-"+imgFile);
             ImageIO.write(inputFile, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -151,7 +152,7 @@ public class Convert
         bd.detect();
         inputFile = ip.getBufferedImage();
         try {
-            File outputFile = new File("img/BackgroundDetect-"+imgFile.getName());
+            File outputFile = new File("img/BackgroundDetect-"+imgFile);
             ImageIO.write(inputFile, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -160,4 +161,5 @@ public class Convert
         Opercity o = new Opercity(ip,ipin);
         o.doOpercity();
     }
+
 }
