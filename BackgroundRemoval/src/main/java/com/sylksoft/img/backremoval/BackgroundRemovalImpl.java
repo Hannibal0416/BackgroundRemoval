@@ -9,25 +9,26 @@ import javax.imageio.ImageIO;
 import com.sylksoft.img.backremoval.convert.*;
 
 public class BackgroundRemovalImpl implements BackgroundRemoval{
-	public static File imgFile = new File("img/80008.png");
+	public static File imgFile = new File("img/girl.png");
+	private  BufferedImage inputFile = null;
 	public static void main(String[] args) {
-		
        
         try {
         	BufferedImage inputFile = ImageIO.read(imgFile);
         	BackgroundRemoval br = new BackgroundRemovalImpl();
         	br.setBufferedImage(inputFile);
+        	br.remove();
         } catch (IOException e) {
             e.printStackTrace();
         }
        
 	}
 
-	private  BufferedImage inputFile = null;
+	
 	
 	@Override
 	public void setBufferedImage(BufferedImage image) {
-		// TODO Auto-generated method stub
+		this.inputFile = image;
 		
 	}
 
@@ -40,8 +41,9 @@ public class BackgroundRemovalImpl implements BackgroundRemoval{
 	@Override
 	public void remove() {
 		Convert c = new Convert();
+		c.setImgFile("girl.png");
 		c.invertImage(inputFile);
-		c.setImgFile(imgFile.getName());
+		
 	}
 
 }

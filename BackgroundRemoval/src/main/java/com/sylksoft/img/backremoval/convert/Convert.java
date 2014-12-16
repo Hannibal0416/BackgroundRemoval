@@ -55,11 +55,7 @@ public class Convert
             e.printStackTrace();
         }
         
-       
-        imageProc = new ImagePlus(); 
-        imageProc.setImage(inputFile);
-        ImageProcessor ipin = new ShortProcessor(inputFile.getWidth(), inputFile.getHeight()); 
-        ipin = imageProc.getProcessor();
+        ImageProcessor ipin = ip.duplicate();
         
         ipin.findEdges();
         
