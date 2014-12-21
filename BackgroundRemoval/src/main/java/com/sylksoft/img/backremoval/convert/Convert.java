@@ -73,7 +73,7 @@ public class Convert
         
         GaussianBlur gb = new GaussianBlur();
         
-        gb.blurGaussian(ipin, 5, 5, 0.02);
+        gb.blurGaussian(ipin, 1, 1, 0.02);
         inputFile = ipin.getBufferedImage();
         try {
             File outputFile = new File("img/1GaussianBlur-"+imgFile);
@@ -82,7 +82,7 @@ public class Convert
             e.printStackTrace();
         }
         Threshold threshold = new Threshold();
-        threshold.setThreshold(10);
+        threshold.setThreshold(15);
         threshold.run(ipin);
         inputFile = ipin.getBufferedImage();
         try {
@@ -91,14 +91,13 @@ public class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        gb.blurGaussian(ipin, 5, 5, 0.02);
-        threshold.setThreshold(10);
         
-       for(int i = 0 ; i < 5 ; i++) {
+//       for(int i = 0 ; i < 3 ; i++) {
     	   ipin.erode();
-       }
-
+    	   ipin.dilate();
+//       }
+    	   ipin.dilate();
+    	   ipin.erode();
 
         inputFile = ipin.getBufferedImage();
         try {
@@ -107,18 +106,18 @@ public class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        FloodFiller ff = new FloodFiller(ipin);
-//        for (int x = ipin.getWidth() /; x < ipin.getWidth() /2; x++) {
+        FloodFiller ff = new FloodFiller(ipin);
+//        for (int x = ipin.getWidth()/4; x < ipin.getWidth() /2; x++) {
 //			for (int y = ipin.getHeight() /4; y < ipin.getHeight() /2; y++) {
 //				ff.fill8(x, y);
 //			}
 //        }
         //center
-//        ff.particleAnalyzerFill(ipin.getHeight() /4, y < ipin.getHeight() /2
-//        , 0, 1, ipin.duplicate(), bounds);
 //        for (int x = ipin.getWidth() /4; x < ipin.getWidth()/4 * 3; x++) {
 //			for (int y = ipin.getHeight() /4; y < ipin.getHeight()/4 * 3; y++) {
-//				if(ipin.getPixel(x, y) == ImageProcessor.BLACK) {
+//				int rgb[] = new int[3];
+//				ipin.getPixel(x, y,rgb);
+//				if( rgb[0] > 250 && rgb[1] > 250 && rgb[0] > 250) {
 //					 ff.fill8(x,y);
 //					 break;
 //				}

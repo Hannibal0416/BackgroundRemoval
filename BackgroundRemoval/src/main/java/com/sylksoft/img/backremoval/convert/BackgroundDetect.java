@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import ij.process.FloodFiller;
 import ij.process.ImageProcessor;
 
 public class BackgroundDetect {
@@ -31,12 +32,11 @@ public class BackgroundDetect {
 				
 				if (countBlock == 0 || countBlock ==( blockWidth * (blockHeight-1) )) {
 
-					int tempBlock[][] = new int[ip.getWidth() / blockWidth][ip
-							.getHeight() / blockHeight];
 					int tempW = ip.getWidth() / blockWidth;
 					int tempH = ip.getHeight() / blockHeight;
-					for (int x = 0; x < ip.getWidth() / blockWidth; x++) {
-						for (int y = 0; y < ip.getHeight() / blockHeight; y++) {
+					int tempBlock[][] = new int[tempW][tempH];
+					for (int x = 0; x < tempW; x++) {
+						for (int y = 0; y < tempH; y++) {
 							int rgb[] = new int[3];
 							ipin.getPixel(i * tempW + x, j * tempH + y, rgb);
 							if (rgb[0] > 250 && rgb[1] > 250 && rgb[0] > 250) {
@@ -63,6 +63,7 @@ public class BackgroundDetect {
 							}
 						}
 					}
+					
 					if (count != 0) {
 						r /= count;
 						g /= count;
@@ -101,6 +102,8 @@ public class BackgroundDetect {
 		backgroundG /=2;
 		backgroundB /=2;
 		
+		
+		
 		//消除雜點
 		for (int i = 0; i < blockWidth; i++) {
 			for (int j = 0; j < blockHeight; j++) {
@@ -129,7 +132,6 @@ public class BackgroundDetect {
 				for (int x = 0; x < edgeW; x++) {
 					for (int y = 0; y < tempH; y++) {
 						ipin.set(i * tempW + x, j * tempH + y, 255);
-						
 					}
 				}
 				
@@ -138,7 +140,6 @@ public class BackgroundDetect {
 				for (int x = edgeW * cell; x <  tempW; x++) {
 					for (int y = 0; y < tempH; y++) {
 						ipin.set(i * tempW + x, j * tempH + y, 255 << 8);
-						
 					}
 				}
 				
@@ -146,20 +147,72 @@ public class BackgroundDetect {
 				for (int x = 0; x < tempW; x++) {
 					for (int y = 0; y < edgeH; y++) {
 						ipin.set(i * tempW + x, j * tempH + y, 255 << 16);
-						
 					}
 				}
 				//右
 				for (int x = 0; x < tempW; x++) {
 					for (int y = edgeH * cell; y < tempH; y++) {
 						ipin.set(i * tempW + x, j * tempH + y, 0);
-						
 					}
 				}
 				
 			}
 		}
-		
+//		for (int i = 0; i < blockWidth - 1; i++) {
+//			for (int j = 0; j < blockHeight - 1; j++) {
+//				
+//				
+//				int tempW = ip.getWidth() / blockWidth;
+//				int tempH = ip.getHeight() / blockHeight;
+//				int tempBlock[][] = new int[tempW][tempH];
+//				                            					
+//				for (int x = (blockWidth /2); x < tempW - (blockWidth /2); x++) {
+//					for (int y = (blockHeight /2); y < tempH - (blockHeight /2); y++) {
+//						int rgb[] = new int[3];
+//						ipin.getPixel(i * tempW + x, j * tempH + y, rgb);
+//						if (rgb[0] > 250 && rgb[1] > 250 && rgb[0] > 250) {
+//							tempBlock[x][y] = -1;
+//							 
+//						} else {
+//							tempBlock[x][y] = 0;
+//						}
+//
+//					}
+//				}
+//				int cell = 20;
+//				int edgeW = tempW/cell;
+//				int edgeH = tempH/cell;
+//				//上
+//				for (int x = (tempW /2); x < edgeW + (tempW /2); x++) {
+//					for (int y = (tempH /2); y < tempH + (tempH /2) ; y++) {
+//						ipin.set(i * tempW + x, j * tempH + y, 255);
+//					}
+//				}
+//				
+//				//下
+//				
+//				for (int x = edgeW * cell + (tempW /2); x <  tempW + (tempW /2); x++) {
+//					for (int y = (tempH /2); y < tempH + (tempH /2); y++) {
+//						ipin.set(i * tempW + x, j * tempH + y, 255 << 8);
+//					}
+//				}
+//				
+//				//左
+//				for (int x = (tempW /2); x < tempW + (tempW /2); x++) {
+//					for (int y = (tempH /2); y < edgeH + (tempH /2); y++) {
+//						ipin.set(i * tempW + x, j * tempH + y, 255 << 16);
+//					}
+//				}
+//				//右
+//				for (int x = (tempW /2); x < tempW + (tempW /2); x++) {
+//					for (int y = edgeH * cell + (tempH /2); y < tempH + (tempH /2); y++) {
+//						ipin.set(i * tempW + x, j * tempH + y, 0);
+//					}
+//				}
+//				
+//			}
+//		}
+//		
 		try {
 			File outputFile = new File("img/BackgroundDetect_edge.png");
 			ImageIO.write(ipin.getBufferedImage(), "png", outputFile);
