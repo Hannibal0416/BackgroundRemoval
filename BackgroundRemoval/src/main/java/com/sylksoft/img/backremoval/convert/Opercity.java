@@ -16,6 +16,10 @@ public class Opercity {
 		this.ipin = ipin;
 	}
 	
+	public ImageProcessor getImageProcessor(){
+		return this.ipin;
+	}
+	
 	public void doOpercity(){
 		BufferedImage bi = ip.getBufferedImage();
 		int w = bi.getWidth();

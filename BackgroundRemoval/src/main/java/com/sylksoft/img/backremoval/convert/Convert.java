@@ -18,7 +18,10 @@ public class Convert
 {
 
 	private String imgFile;
-	
+	private BufferedImage bufferedImage;
+	public BufferedImage getBufferedImage() {
+		return this.bufferedImage;
+	}
     public String getImgFile() {
 		return imgFile;
 	}
@@ -145,10 +148,10 @@ public class Convert
         
         BackgroundDetect bd = new BackgroundDetect(ip.duplicate(),ipin.duplicate());
         bd.detect();
-        inputFile = ip.getBufferedImage();
+        bufferedImage = ip.getBufferedImage();
         try {
             File outputFile = new File("img/BackgroundDetect-"+imgFile);
-            ImageIO.write(inputFile, "png", outputFile);
+            ImageIO.write(bufferedImage, "png", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

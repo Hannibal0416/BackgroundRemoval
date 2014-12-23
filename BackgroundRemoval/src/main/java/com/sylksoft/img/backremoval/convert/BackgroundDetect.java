@@ -16,10 +16,16 @@ public class BackgroundDetect {
 	ImageProcessor ipin;
 	int blockWidth = 8;
 	int blockHeight = 8;
+	
+	int sensitive = 40;
 
 	public BackgroundDetect(ImageProcessor ip, ImageProcessor ipin) {
 		this.ip = ip;
 		this.ipin = ipin;
+	}
+	
+	public void setSensitive(int sensitive) {
+		this.sensitive = sensitive;
 	}
 	
 	private int backgroundR;
@@ -121,7 +127,7 @@ public class BackgroundDetect {
 //				if(BackgroundRemovalUtil.range(rgb, _rgb, 5) ) {
 					int rgb_ip[] = new int[3];
 					ip.getPixel(x, y, rgb_ip);
-					if(!BackgroundRemovalUtil.range(rgb_ip, backgroundRGB, 60)) {
+					if(!BackgroundRemovalUtil.range(rgb_ip, backgroundRGB, sensitive)) {
 						ipin.set(x, y, Color.WHITE.getRGB());
 					} else {
 						ipin.set(x, y, Color.BLACK.getRGB());
