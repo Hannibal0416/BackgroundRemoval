@@ -11,6 +11,7 @@ import com.sylksoft.img.backremoval.convert.*;
 public class BackgroundRemovalImpl implements BackgroundRemoval{
 	public static File imgFile = new File("img/gg.png");
 	private  BufferedImage inputFile = null;
+	private Convert c = new Convert();
 	public static void main(String[] args) {
        
         try {
@@ -35,12 +36,12 @@ public class BackgroundRemovalImpl implements BackgroundRemoval{
 	@Override
 	public BufferedImage getBufferedImage() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.inputFile;
 	}
 
 	@Override
 	public void remove() {
-		Convert c = new Convert();
+		
 		c.setImgFile("girl.png");
 		c.invertImage(inputFile);
 		

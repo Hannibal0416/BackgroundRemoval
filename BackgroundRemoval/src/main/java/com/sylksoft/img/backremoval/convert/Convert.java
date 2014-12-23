@@ -93,8 +93,6 @@ public class Convert
         }
         
 //       for(int i = 0 ; i < 3 ; i++) {
-    	   ipin.erode();
-    	   ipin.dilate();
 //       }
     	   ipin.dilate();
     	   ipin.erode();
@@ -143,7 +141,9 @@ public class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BackgroundDetect bd = new BackgroundDetect(ip,ipin);
+        
+        
+        BackgroundDetect bd = new BackgroundDetect(ip.duplicate(),ipin.duplicate());
         bd.detect();
         inputFile = ip.getBufferedImage();
         try {
@@ -153,8 +153,14 @@ public class Convert
             e.printStackTrace();
         }
         //find background color
-        Opercity o = new Opercity(ip,ipin);
+        ipin = bd.getImageProcessor();
+        ipin.erode();
+        ipin.dilate();
+        Opercity o = new Opercity(ip.duplicate(),ipin.duplicate());
         o.doOpercity();
     }
+	
+	
+	
 
 }
