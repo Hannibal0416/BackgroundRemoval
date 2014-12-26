@@ -1,4 +1,4 @@
-package com.sylksoft.img.backremoval.convert;
+package com.test;
 
 import java.awt.image.*;
 import java.io.File;

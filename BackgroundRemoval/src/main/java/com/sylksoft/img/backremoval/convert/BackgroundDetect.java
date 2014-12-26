@@ -3,6 +3,10 @@ package com.sylksoft.img.backremoval.convert;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -17,7 +21,7 @@ public class BackgroundDetect {
 	int blockWidth = 8;
 	int blockHeight = 8;
 	
-	int sensitive = 40;
+	int sensitive = 50;
 
 	public BackgroundDetect(ImageProcessor ip, ImageProcessor ipin) {
 		this.ip = ip;
@@ -40,6 +44,10 @@ public class BackgroundDetect {
 		// block split
 		ImageProcessor temp = ipin.duplicate();
 		int countBlock = 0;
+		int tempr = 0,tempg = 0,tempb = 0;
+		List<Integer> rList = new ArrayList<Integer>();
+		List<Integer> gList = new ArrayList<Integer>();
+		List<Integer> bList = new ArrayList<Integer>();
 		for (int i = 0; i < blockWidth; i++) {
 			for (int j = 0; j < blockHeight; j++) {
 				
@@ -73,6 +81,7 @@ public class BackgroundDetect {
 								r += (tempBlock[x][y] & 0xff0000) >> 16;
 								g += (tempBlock[x][y] & 0xff00) >> 8;
 								b += tempBlock[x][y] & 0xff;
+								
 							}
 						}
 					}
@@ -81,24 +90,37 @@ public class BackgroundDetect {
 						r /= count;
 						g /= count;
 						b /= count;
-						backgroundR += r;
-						backgroundG += g;
-						backgroundB += b;
-						System.out.print("R:" + r + ",");
-						System.out.print("G:" + g + ",");
-						System.out.println("B:" + b);
-						for (int x = 0; x < ip.getWidth() / blockWidth; x++) {
-							for (int y = 0; y < ip.getHeight() / blockHeight; y++) {
-								if (tempBlock[x][y] != -1) {
-									temp.set(i * tempW + x, j * tempH + y,
-											((r << 16) + (g << 8) + b));
+						if(countBlock == 0) {
+							tempr = r;
+							tempg = g;
+							tempb = b;
+						}
+						
+						if(BackgroundRemovalUtil.range(new int[]{r,g,b}, new int[]{tempr,tempg,tempb}, sensitive)) {
+							backgroundR += r;
+							backgroundG += g;
+							backgroundB += b;
+							rList.add(r);
+							gList.add(g);
+							bList.add(b);
+							countBlock++;
+							System.out.print("R:" + r + ",");
+							System.out.print("G:" + g + ",");
+							System.out.println("B:" + b);
+							for (int x = 0; x < ip.getWidth() / blockWidth; x++) {
+								for (int y = 0; y < ip.getHeight() / blockHeight; y++) {
+									if (tempBlock[x][y] != -1) {
+										temp.set(i * tempW + x, j * tempH + y,
+												((r << 16) + (g << 8) + b));
+									}
+									
 								}
-
 							}
 						}
+						
 					}
 //				}
-				countBlock++;
+				
 			}
 		}
 
@@ -110,10 +132,24 @@ public class BackgroundDetect {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		//平均
 		backgroundR /=countBlock;
 		backgroundG /=countBlock;
 		backgroundB /=countBlock;
+		//標準差
+		Integer rMax = Collections.max(rList, (r1, r2) -> r1.compareTo(r2));
+		Integer gMax = Collections.max(gList, (g1, g2) -> g1.compareTo(g2));
+		Integer bMax = Collections.max(bList, (b1, b2) -> b1.compareTo(b2));
+		Integer rMin = Collections.max(rList, (r1, r2) -> -r1.compareTo(r2));
+		Integer gMin = Collections.max(gList, (g1, g2) -> -g1.compareTo(g2));
+		Integer bMin = Collections.max(bList, (b1, b2) -> -b1.compareTo(b2));
+//		Integer rRange = Collections.max(Arrays.asList(new Integer[]{Math.abs(backgroundR - rMax) , Math.abs(backgroundR - rMin)}))  ;
+//		Integer gRange = Collections.max(Arrays.asList(new Integer[]{Math.abs(backgroundG - gMax) , Math.abs(backgroundG - gMin)}))  ;
+//		Integer bRange = Collections.max(Arrays.asList(new Integer[]{Math.abs(backgroundB - bMax) , Math.abs(backgroundB - bMin)}))  ;
+		Integer rRange = Math.abs(rMin - rMax);
+		Integer gRange = Math.abs(gMin - gMax);
+		Integer bRange = Math.abs(bMin - bMax);
+		System.out.println(rRange + "," + gRange + ","+ bRange + ",");
 		System.out.print("R:" + backgroundR + ",");
 		System.out.print("G:" + backgroundG + ",");
 		System.out.println("B:" + backgroundB);
@@ -127,7 +163,7 @@ public class BackgroundDetect {
 //				if(BackgroundRemovalUtil.range(rgb, _rgb, 5) ) {
 					int rgb_ip[] = new int[3];
 					ip.getPixel(x, y, rgb_ip);
-					if(!BackgroundRemovalUtil.range(rgb_ip, backgroundRGB, sensitive)) {
+					if(!BackgroundRemovalUtil.range(rgb_ip, backgroundRGB, rRange,gRange,bRange)) {
 						ipin.set(x, y, Color.WHITE.getRGB());
 					} else {
 						ipin.set(x, y, Color.BLACK.getRGB());

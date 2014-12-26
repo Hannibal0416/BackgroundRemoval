@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import com.sylksoft.img.backremoval.convert.*;
 
 public class BackgroundRemovalImpl implements BackgroundRemoval{
-	public static File imgFile = new File("img/gg.png");
+	public static File imgFile = new File("img/22.png");
 	private  BufferedImage inputFile = null;
 	private Convert c = new Convert();
 	public static void main(String[] args) {

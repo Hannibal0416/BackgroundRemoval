@@ -1,12 +1,10 @@
 package com.sylksoft.img.backremoval.convert;
 import ij.ImagePlus;
 import ij.plugin.filter.GaussianBlur;
-import ij.process.FloodFiller;
 import ij.process.ImageProcessor;
 import ij.process.ShortProcessor;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -95,8 +93,6 @@ public class Convert
             e.printStackTrace();
         }
         
-//       for(int i = 0 ; i < 3 ; i++) {
-//       }
     	   ipin.dilate();
     	   ipin.erode();
 
@@ -107,35 +103,8 @@ public class Convert
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FloodFiller ff = new FloodFiller(ipin);
-//        for (int x = ipin.getWidth()/4; x < ipin.getWidth() /2; x++) {
-//			for (int y = ipin.getHeight() /4; y < ipin.getHeight() /2; y++) {
-//				ff.fill8(x, y);
-//			}
-//        }
-        //center
-//        for (int x = ipin.getWidth() /4; x < ipin.getWidth()/4 * 3; x++) {
-//			for (int y = ipin.getHeight() /4; y < ipin.getHeight()/4 * 3; y++) {
-//				int rgb[] = new int[3];
-//				ipin.getPixel(x, y,rgb);
-//				if( rgb[0] > 250 && rgb[1] > 250 && rgb[0] > 250) {
-//					 ff.fill8(x,y);
-//					 break;
-//				}
-//			}
-//        }
-       
-//        FloodFill ff = new FloodFill();
-//        ff.setIp(ipin);
-        //ff.flood(ipin.getWidth() /4, ipin.getHeight() /4,  (255<< 16)+ (255 <<8) + 255 ,  (255<< 16)+ (255 <<8) + 255);
-//        ff.flood(ipin.getWidth() /8, ipin.getHeight() /8,  (255<< 16)+ (255 <<8) + 255 , ipin.get(ipin.getWidth() /8, ipin.getHeight() /8));
         
-        //ff.particleAnalyzerFill(ipin.getWidth() /2, ipin.getHeight() /2, 0.2, 0.4, ipin.duplicate(), r);
-//       int ori[] = new int[3];
-//       int w[] = {255,255,255};
-//        ff.fill(4 , 4, w,  ipin.getPixel(0 , 0 ,ori));
-        
-        
+         
         inputFile = ipin.getBufferedImage();
 
         try {

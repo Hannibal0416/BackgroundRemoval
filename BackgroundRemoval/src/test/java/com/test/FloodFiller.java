@@ -1,4 +1,4 @@
-package com.sylksoft.img.backremoval.convert;
+package com.test;
 import ij.*;
 import ij.gui.Toolbar;
 import ij.process.FloatProcessor;
