@@ -31,6 +31,7 @@ public class BackgroundViewer extends Application {
 			br.setBufferedImage(bf);
 			br.remove();
 			bf = br.getBufferedImage();
+			
 		} catch (IOException ex) {
 			System.out.println("Image failed to load.");
 		}

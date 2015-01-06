@@ -180,12 +180,12 @@ public class BackgroundDetect {
 			}
 		}
 		
-		try {
-			File outputFile = new File("img/BackgroundDetect2.png");
-			ImageIO.write(ipin.getBufferedImage(), "png", outputFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			File outputFile = new File("img/BackgroundDetect2.png");
+//			ImageIO.write(ipin.getBufferedImage(), "png", outputFile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		//消除雜點
 //		for (int i = 0; i < blockWidth; i++) {
 //			for (int j = 0; j < blockHeight; j++) {
@@ -295,12 +295,12 @@ public class BackgroundDetect {
 //			}
 //		}
 //		
-		try {
-			File outputFile = new File("img/BackgroundDetect_edge.png");
-			ImageIO.write(ipin.getBufferedImage(), "png", outputFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			File outputFile = new File("img/BackgroundDetect_edge.png");
+//			ImageIO.write(ipin.getBufferedImage(), "png", outputFile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 	
