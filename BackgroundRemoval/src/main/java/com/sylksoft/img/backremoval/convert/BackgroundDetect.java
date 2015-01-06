@@ -104,9 +104,9 @@ public class BackgroundDetect {
 							gList.add(g);
 							bList.add(b);
 							countBlock++;
-							System.out.print("R:" + r + ",");
-							System.out.print("G:" + g + ",");
-							System.out.println("B:" + b);
+//							System.out.print("R:" + r + ",");
+//							System.out.print("G:" + g + ",");
+//							System.out.println("B:" + b);
 							for (int x = 0; x < ip.getWidth() / blockWidth; x++) {
 								for (int y = 0; y < ip.getHeight() / blockHeight; y++) {
 									if (tempBlock[x][y] != -1) {
@@ -126,12 +126,12 @@ public class BackgroundDetect {
 
 		
 		
-		try {
-			File outputFile = new File("img/BackgroundDetect.png");
-			ImageIO.write(temp.getBufferedImage(), "png", outputFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			File outputFile = new File("img/BackgroundDetect.png");
+//			ImageIO.write(temp.getBufferedImage(), "png", outputFile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		//平均
 		backgroundR /=countBlock;
 		backgroundG /=countBlock;
@@ -149,10 +149,10 @@ public class BackgroundDetect {
 		Integer rRange = Math.abs(rMin - rMax);
 		Integer gRange = Math.abs(gMin - gMax);
 		Integer bRange = Math.abs(bMin - bMax);
-		System.out.println(rRange + "," + gRange + ","+ bRange + ",");
-		System.out.print("R:" + backgroundR + ",");
-		System.out.print("G:" + backgroundG + ",");
-		System.out.println("B:" + backgroundB);
+//		System.out.println(rRange + "," + gRange + ","+ bRange + ",");
+//		System.out.print("R:" + backgroundR + ",");
+//		System.out.print("G:" + backgroundG + ",");
+//		System.out.println("B:" + backgroundB);
 		int backgroundRGB[] = new int[]{backgroundR,backgroundG,backgroundB};
 
 		for (int x = 0; x < ip.getWidth(); x++) {
