@@ -137,12 +137,12 @@ public class BackgroundDetect {
 		backgroundG /=countBlock;
 		backgroundB /=countBlock;
 		//標準差
-		Integer rMax = Collections.max(rList, (r1, r2) -> r1.compareTo(r2));
-		Integer gMax = Collections.max(gList, (g1, g2) -> g1.compareTo(g2));
-		Integer bMax = Collections.max(bList, (b1, b2) -> b1.compareTo(b2));
-		Integer rMin = Collections.max(rList, (r1, r2) -> -r1.compareTo(r2));
-		Integer gMin = Collections.max(gList, (g1, g2) -> -g1.compareTo(g2));
-		Integer bMin = Collections.max(bList, (b1, b2) -> -b1.compareTo(b2));
+		Integer rMax = Collections.max(rList);
+		Integer gMax = Collections.max(gList);
+		Integer bMax = Collections.max(bList);
+		Integer rMin = Collections.min(rList);
+		Integer gMin = Collections.min(gList);
+		Integer bMin = Collections.min(bList);
 //		Integer rRange = Collections.max(Arrays.asList(new Integer[]{Math.abs(backgroundR - rMax) , Math.abs(backgroundR - rMin)}))  ;
 //		Integer gRange = Collections.max(Arrays.asList(new Integer[]{Math.abs(backgroundG - gMax) , Math.abs(backgroundG - gMin)}))  ;
 //		Integer bRange = Collections.max(Arrays.asList(new Integer[]{Math.abs(backgroundB - bMax) , Math.abs(backgroundB - bMin)}))  ;
